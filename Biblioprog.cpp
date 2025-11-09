@@ -1,51 +1,38 @@
-//Contenedor Lineal - list
+//Contenedor Lineal - Random acces iterators
 
 #include<iostream>
-#include<list>
+#include<cstdlib>
+#include<vector>
 using namespace std;
+
+//Funcion template para mostrar los elementos de un contenedor
+template <class Iter>
+void mostrarEnPantalla(Iter inicio, Iter final){
+    while(inicio != final) {
+        cout<< *inicio <<"|";
+        inicio++;
+    }
+}
+
 int main(){
-    list<int> datos;
+   vector<char> letras(10); //creando el vector de 10 elementos char
 
-    // 7 2 5 1 6 
+   //Agregando elementos al vector 
+   for(int i=0; i<10; i++){
+     letras[i] = 'A' + (rand() % 20);
+   }
 
-    //Agregar elementos
-    datos.push_back(5); // Agregar por el final de la lista
-    datos.push_back(1);
-    datos.push_back(6);
+   //Visualizar los elementos del vector 
+   mostrarEnPantalla(letras.begin(),letras.end());
+   cout<<endl;
 
+   //Visualizar los elementos del vector al reves
+   mostrarEnPantalla(letras.rbegin(),letras.rend());
+   cout<<endl;
 
-    datos.push_front(2); // Agregar por el principio d ela lista
-    datos.push_front(7);
+   //Visualizar los elementos del medio del vector (1-8)
+   mostrarEnPantalla(letras.begin()+1,letras.end()-1);
+   cout<<endl;
 
-    //ordenar los elementos de mayor a menor
-    datos.sort();
-
-    //1 2 5 6 7
-
-    //Creamos el iterador
-    list<int>::iterator i;
-
-    i = datos.begin();
-
-    while(i != datos.end()){
-        cout<< *i <<"|";
-
-        i++;
-    }
-
-    cout<<endl;
-
-    //Eliminar elementos de la lista 
-    datos.pop_back();
-    datos.pop_front();
-
-    i = datos.begin();
-
-    while(i != datos.end()){
-        cout<< *i <<"|";
-
-        i++;
-    }
-    
 	return 0;
 }
