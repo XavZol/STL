@@ -1,38 +1,37 @@
-//Contenedor Lineal - Random acces iterators
+// Iteradores - Forward iterators
 
 #include<iostream>
-#include<cstdlib>
+#include<fstream> // para archivos
+#include<iterator> // para streams_iterators
 #include<vector>
+#include<cstdlib>
 using namespace std;
 
-//Funcion template para mostrar los elementos de un contenedor
-template <class Iter>
-void mostrarEnPantalla(Iter inicio, Iter final){
-    while(inicio != final) {
-        cout<< *inicio <<"|";
-        inicio++;
-    }
-}
-
 int main(){
-   vector<char> letras(10); //creando el vector de 10 elementos char
+    ifstream archivo;
 
-   //Agregando elementos al vector 
-   for(int i=0; i<10; i++){
-     letras[i] = 'A' + (rand() % 20);
-   }
+    archivo.open("documento.txt",ios::in);
 
-   //Visualizar los elementos del vector 
-   mostrarEnPantalla(letras.begin(),letras.end());
-   cout<<endl;
+    if(archivo.fail()){
+        cout<<"No se puede abirir el archivo";
+        exit(1);
+    }
 
-   //Visualizar los elementos del vector al reves
-   mostrarEnPantalla(letras.rbegin(),letras.rend());
-   cout<<endl;
+    istream_iterator<char> p(archivo); //Iterator para char 
+    vector<char> frase;
 
-   //Visualizar los elementos del medio del vector (1-8)
-   mostrarEnPantalla(letras.begin()+1,letras.end()-1);
-   cout<<endl;
+    while(!archivo.eof()){ //Mientras no sea el final del archivo
+        frase.push_back(*p); //Almacenamos el caracter por el que vamos
+        p++;
+    }
+
+    //mostramos el vector frase
+    for(int i=0; i<frase.size();i++){
+        cout<<frase[i];
+    }
+    cout<<endl;
+
+    archivo.close();
 
 	return 0;
 }
