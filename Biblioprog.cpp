@@ -1,4 +1,4 @@
-// Algoritmos - Iniciando con algorithm
+// Algoritmos de Búsqueda y Ordenamiento
 
 #include<iostream>
 #include<fstream> // para archivos
@@ -10,32 +10,42 @@
 using namespace std;
 
 int numeroAleatorios(){
-    return rand()%10;
+    return rand()%30;
+}
+
+//Funciion logica para calcular si un numero es par
+template <class T>
+bool asPar(T valor){
+    return ((valor%2) == 0);
 }
 
 int main(){
-    list<int> valores(10); //Lista de 10 elemensots enteros
+    vector<int> valores(10);
 
-    //Generado numeros aleatorios en un rango de la lista
+    //Generamos numeros aleatorios y los guardamos dentro de vector
     generate(valores.begin(),valores.end(),numeroAleatorios);
 
-    //Mostrando los elementos de la lista
-    ostream_iterator<int> salida(cout,"|");
-    copy(valores.begin(),valores.end(),salida);
+    //Mostrar en pantalla el vector
+    copy(valores.begin(),valores.end(),ostream_iterator<int> (cout,"|"));
 
-    //Buscar un la primera aparicion del numero 8 en la lista
-    list<int>::iterator i;
-    i = find(valores.begin(),valores.end(),8);
+    //Creamos un nuevo vector para almacenaar los elementos pares
+    vector<int> pares;
 
-    cout<<endl;
+    //Iterador para recorrer el vector valores
+    vector<int>::iterator i = valores.begin();
 
-    //Analizamos si i no sobrepasa los rangos de la lista
-    if(i != valores.end()){
-        cout<<"El elemento "<<*i<<" si ha sido encontrado en la lista "<<endl;
+    while((i=find_if(i,valores.end(),asPar<int>)) != valores.end()){
+        pares.push_back(*i);
+        i++;
     }
-    else{
-        cout<<"El elemento no ha sido encontrado en la lista"<<endl;
-    }
+
+    cout<<"\n\n Arreglo de numeros pares"<<endl;
+
+    //Ordena el vector pares
+    sort(pares.begin(),pares.end());
+
+    //Mostramos el vector pares en pantalla
+    copy(pares.begin(),pares.end(),ostream_iterator<int> (cout,"|"));
 
 	return 0;
 }
