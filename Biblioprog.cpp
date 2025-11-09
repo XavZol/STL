@@ -1,4 +1,4 @@
-// Algoritmos STL - Matemáticos
+// Algoritmos STL - Transformación
 
 #include<iostream>
 #include<fstream> // para archivos
@@ -10,32 +10,49 @@
 #include<numeric> //Para utilizar la funcion accumulate
 using namespace std;
 
-//Funcion logica para comporbar si un numero es positivo 
-template <class T>
-bool esPositivo(T valor){
-    return (valor>=0);
+//Funcion para pasar las letras a Mayuscula
+void mayusculas(char &letra){
+    if(letra>='a' && letra<='z'){
+        letra = letra - ('a' - 'A');
+    }
+}
+
+//Funcion unaria para determinar si una letra es una vocal
+char vocales(char letra){
+    return (letra=='A' || letra=='E' || letra=='I' || letra=='O' || letra=='U') ? letra : '-';
 }
 
 int main(){
-    vector<float> numeros;
+    vector<char> letras;
 
-    //Abrimos el archivo en modo lectura
-    ifstream archivo("archivoDocumento.txt",ios::in);
+    //Generamos letras para el vector
+    for(int i=0; i<10; i++){
+        letras.push_back('a' + i);
+    }
+    
+    copy(letras.begin(),letras.end(),ostream_iterator<char> (cout,"|"));
+    cout<<endl;
 
-    //Copiamos todos los elementos del archivo hacia el vectro numeros 
-    copy(istream_iterator<float>(archivo),istream_iterator<float>(),back_inserter(numeros));
+    //Desordenamos el vector letras
+    random_shuffle(letras.begin(),letras.end());
 
-    //Calculamos el maximo y el minimo de los elementos del vactor 
-    cout<<"Maximo: "<<*max_element(numeros.begin(),numeros.end())<<endl;
-    cout<<"Minimo: "<<*min_element(numeros.begin(),numeros.end())<<endl;
+    cout<<"\nVector desordenado"<<endl;
 
-    //CAlculamos el valor promedio de los elementos del vector
-    cout<<"\nValor Promedio:"
-    <<accumulate(numeros.begin(),numeros.end(),0.0)/numeros.size()<<endl;
+    copy(letras.begin(),letras.end(),ostream_iterator<char> (cout,"|"));
+    cout<<endl;
 
-    //Calcular el conteo de numeros positivos
-    cout<<"Cantidad de numeros positivos: "
-    <<count_if(numeros.begin(),numeros.end(),esPositivo<float>)<<endl;
+    //Pasamos a mayusculas las letras del vector 
+    for_each(letras.begin(),letras.end(),mayusculas);
+
+    cout<<"\nVector en Mayusculas"<<endl;
+
+    copy(letras.begin(),letras.end(),ostream_iterator<char> (cout,"|"));
+    cout<<endl;
+
+    cout<<"\nVocales del vector: "<<endl;
+    //Imprimir solo las vocales
+    transform(letras.begin(),letras.end(),
+    ostream_iterator<char> (cout,"|"), vocales);
 
 	return 0;
 }
