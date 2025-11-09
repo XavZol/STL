@@ -1,4 +1,4 @@
-// Algoritmos de Búsqueda y Ordenamiento
+// Algoritmos STL - Matemáticos
 
 #include<iostream>
 #include<fstream> // para archivos
@@ -7,45 +7,35 @@
 #include<list>
 #include<cstdlib>
 #include<algorithm>
+#include<numeric> //Para utilizar la funcion accumulate
 using namespace std;
 
-int numeroAleatorios(){
-    return rand()%30;
-}
-
-//Funciion logica para calcular si un numero es par
+//Funcion logica para comporbar si un numero es positivo 
 template <class T>
-bool asPar(T valor){
-    return ((valor%2) == 0);
+bool esPositivo(T valor){
+    return (valor>=0);
 }
 
 int main(){
-    vector<int> valores(10);
+    vector<float> numeros;
 
-    //Generamos numeros aleatorios y los guardamos dentro de vector
-    generate(valores.begin(),valores.end(),numeroAleatorios);
+    //Abrimos el archivo en modo lectura
+    ifstream archivo("archivoDocumento.txt",ios::in);
 
-    //Mostrar en pantalla el vector
-    copy(valores.begin(),valores.end(),ostream_iterator<int> (cout,"|"));
+    //Copiamos todos los elementos del archivo hacia el vectro numeros 
+    copy(istream_iterator<float>(archivo),istream_iterator<float>(),back_inserter(numeros));
 
-    //Creamos un nuevo vector para almacenaar los elementos pares
-    vector<int> pares;
+    //Calculamos el maximo y el minimo de los elementos del vactor 
+    cout<<"Maximo: "<<*max_element(numeros.begin(),numeros.end())<<endl;
+    cout<<"Minimo: "<<*min_element(numeros.begin(),numeros.end())<<endl;
 
-    //Iterador para recorrer el vector valores
-    vector<int>::iterator i = valores.begin();
+    //CAlculamos el valor promedio de los elementos del vector
+    cout<<"\nValor Promedio:"
+    <<accumulate(numeros.begin(),numeros.end(),0.0)/numeros.size()<<endl;
 
-    while((i=find_if(i,valores.end(),asPar<int>)) != valores.end()){
-        pares.push_back(*i);
-        i++;
-    }
-
-    cout<<"\n\n Arreglo de numeros pares"<<endl;
-
-    //Ordena el vector pares
-    sort(pares.begin(),pares.end());
-
-    //Mostramos el vector pares en pantalla
-    copy(pares.begin(),pares.end(),ostream_iterator<int> (cout,"|"));
+    //Calcular el conteo de numeros positivos
+    cout<<"Cantidad de numeros positivos: "
+    <<count_if(numeros.begin(),numeros.end(),esPositivo<float>)<<endl;
 
 	return 0;
 }
