@@ -1,35 +1,51 @@
-//Contenedor Lineal - deque (doble cola)
+//Contenedor Lineal - list
 
 #include<iostream>
-#include<deque>
+#include<list>
 using namespace std;
 int main(){
-    deque<char> letras;
+    list<int> datos;
 
-    // A B C D E F
+    // 7 2 5 1 6 
 
-    letras.push_front('C'); //Agregamos un elemento por el principio 
-	letras.push_front('B');
-    letras.push_front('A');
+    //Agregar elementos
+    datos.push_back(5); // Agregar por el final de la lista
+    datos.push_back(1);
+    datos.push_back(6);
 
-    letras.push_back('D'); //Agregamos un elemento al final
-    letras.push_back('E');
-    letras.push_back('F');
 
-    // Mostramos los elemento sdel deque
-    for(int i=0; i<letras.size();i++){
-        cout<<letras[i]<<"|";
+    datos.push_front(2); // Agregar por el principio d ela lista
+    datos.push_front(7);
+
+    //ordenar los elementos de mayor a menor
+    datos.sort();
+
+    //1 2 5 6 7
+
+    //Creamos el iterador
+    list<int>::iterator i;
+
+    i = datos.begin();
+
+    while(i != datos.end()){
+        cout<< *i <<"|";
+
+        i++;
     }
-
-    letras.pop_front(); //elimina elmentos del frente
-    letras.pop_back(); //Elimina un elemnto del final
 
     cout<<endl;
-    
-     // Mostramos los elemento sdel deque
-    for(int i=0; i<letras.size();i++){
-        cout<<letras[i]<<"|";
-    }
 
+    //Eliminar elementos de la lista 
+    datos.pop_back();
+    datos.pop_front();
+
+    i = datos.begin();
+
+    while(i != datos.end()){
+        cout<< *i <<"|";
+
+        i++;
+    }
+    
 	return 0;
 }
