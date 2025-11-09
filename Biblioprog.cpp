@@ -1,37 +1,41 @@
-// Iteradores - Forward iterators
+// Algoritmos - Iniciando con algorithm
 
 #include<iostream>
 #include<fstream> // para archivos
 #include<iterator> // para streams_iterators
 #include<vector>
+#include<list>
 #include<cstdlib>
+#include<algorithm>
 using namespace std;
 
+int numeroAleatorios(){
+    return rand()%10;
+}
+
 int main(){
-    ifstream archivo;
+    list<int> valores(10); //Lista de 10 elemensots enteros
 
-    archivo.open("documento.txt",ios::in);
+    //Generado numeros aleatorios en un rango de la lista
+    generate(valores.begin(),valores.end(),numeroAleatorios);
 
-    if(archivo.fail()){
-        cout<<"No se puede abirir el archivo";
-        exit(1);
-    }
+    //Mostrando los elementos de la lista
+    ostream_iterator<int> salida(cout,"|");
+    copy(valores.begin(),valores.end(),salida);
 
-    istream_iterator<char> p(archivo); //Iterator para char 
-    vector<char> frase;
+    //Buscar un la primera aparicion del numero 8 en la lista
+    list<int>::iterator i;
+    i = find(valores.begin(),valores.end(),8);
 
-    while(!archivo.eof()){ //Mientras no sea el final del archivo
-        frase.push_back(*p); //Almacenamos el caracter por el que vamos
-        p++;
-    }
-
-    //mostramos el vector frase
-    for(int i=0; i<frase.size();i++){
-        cout<<frase[i];
-    }
     cout<<endl;
 
-    archivo.close();
+    //Analizamos si i no sobrepasa los rangos de la lista
+    if(i != valores.end()){
+        cout<<"El elemento "<<*i<<" si ha sido encontrado en la lista "<<endl;
+    }
+    else{
+        cout<<"El elemento no ha sido encontrado en la lista"<<endl;
+    }
 
 	return 0;
 }
